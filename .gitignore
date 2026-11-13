@@ -1,9 +1,13 @@
 .env
+.dev.vars
 __pycache__/
 *.pyc
 .venv/
 venv/
 credentials.json
 token.json
-card_connect.db
-card_connect_persistence.pickle
+
+node_modules/
+.wrangler/
+.claude/
+*.log

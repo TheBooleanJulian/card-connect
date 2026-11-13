@@ -1,0 +1,19 @@
+{
+  "name": "card-connect",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Telegram bot: name-card photo -> saved contact, WhatsApp greeting, intel and a follow-up pipeline. Cloudflare Worker.",
+  "type": "module",
+  "main": "worker.js",
+  "scripts": {
+    "test": "node --test",
+    "deploy": "npx wrangler deploy"
+  },
+  "dependencies": {
+    "thebooleanjulian-bot-core": "github:TheBooleanJulian/thebooleanjulian-bot-core#main"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.3.0"
+  },
+  "license": "SEE LICENSE IN LICENSE"
+}
