@@ -1,0 +1,29 @@
+{
+  // Card Connect on Cloudflare Workers (webhook + Cron Trigger + Supabase via Hyperdrive).
+  // Data: schema card_connect in the shared Supabase project (TheBooleanJulian/thebooleanjulian-db). The Hyperdrive config
+  // "card-connect-db" logs in as card_connect_app, which can only touch that schema.
+  // Model calls: thebooleanjulian-llm service binding (use cases card-extract / card-followup / card-intel). No provider keys here.
+  // Secrets: BOT_TOKEN, WEBHOOK_SECRET, ALLOWED_USER_IDS; optional SERPER_API_KEY, GOOGLE_TOKEN_JSON.
+  // Going live (see README "Going live"): fill in the Hyperdrive id and uncomment `hyperdrive` + `routes`, set the secrets,
+  // deploy, then setWebhook.
+  "name": "card-connect",
+  "account_id": "c580c4403524273d1bece674117472dd",
+  "main": "worker.js",
+  // Workers Builds / the bot-core fan-out track bot-core @main; the fan-out sets BOT_CORE_SHA and installs that commit itself.
+  "build": {
+    "command": "node -e \"process.env.BOT_CORE_SHA || require('child_process').execSync('npm install --no-save --no-audit --no-fund github:TheBooleanJulian/thebooleanjulian-bot-core#main', { stdio: 'inherit' })\""
+  },
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "vars": {
+    "BOT_NAME": "card-connect",
+    "BOT_USERNAME": ""
+  },
+  "services": [{ "binding": "LLM", "service": "thebooleanjulian-llm" }],
+  // "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "<from provision.mjs card_connect>" }],
+  "triggers": { "crons": ["0 1 * * *"] }, // 09:00 SGT: follow-up reminders
+  // "routes": [{ "pattern": "card-connect.thebooleanjulian.dev", "custom_domain": true }],
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
+  "observability": { "enabled": true }
+}
