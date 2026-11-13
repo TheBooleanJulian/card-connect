@@ -1,7 +1,13 @@
 .env
+.dev.vars
 __pycache__/
 *.pyc
 .venv/
 venv/
 credentials.json
 token.json
+
+node_modules/
+.wrangler/
+.claude/
+*.log

@@ -1,8 +1,3 @@
-python-telegram-bot==21.6
-openai==1.63.0
-Pillow==10.4.0
-python-dotenv==1.0.1
-google-api-python-client==2.149.0
-google-auth==2.35.0
+# Only for authorize_google.py, the one-time local script that links a Google account.
+# The bot itself is a Cloudflare Worker (see package.json).
 google-auth-oauthlib==1.2.1
-google-auth-httplib2==0.2.0
