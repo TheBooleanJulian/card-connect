@@ -12,10 +12,6 @@ import logging
 import os
 from pathlib import Path
 
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
-
 logger = logging.getLogger("card-connect.google_contacts")
 
 SCOPES = ["https://www.googleapis.com/auth/contacts"]
@@ -23,13 +19,23 @@ SCOPES = ["https://www.googleapis.com/auth/contacts"]
 TOKEN_PATH = Path(os.environ.get("GOOGLE_TOKEN_PATH", "token.json"))
 
 
-def _load_credentials() -> Credentials:
+def is_configured() -> bool:
+    """True once a Google account has been linked. Without one the bot still
+    works; contacts just stay in its own CRM."""
+    return bool(os.environ.get("GOOGLE_TOKEN_JSON")) or TOKEN_PATH.exists()
+
+
+def _load_credentials():
     """Load stored OAuth credentials, refreshing the access token if needed.
 
     Supports either a token.json file on disk (local dev) or the same JSON
     passed inline via the GOOGLE_TOKEN_JSON env var (for hosts like Zeabur
     where writing a persistent file is inconvenient).
     """
+    # Imported here so the bot starts without a linked Google account.
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials
+
     raw = os.environ.get("GOOGLE_TOKEN_JSON")
     if raw:
         info = json.loads(raw)
@@ -68,6 +74,8 @@ def create_contact(card: dict) -> dict:
 
     Returns the created person resource from the People API.
     """
+    from googleapiclient.discovery import build
+
     creds = _load_credentials()
     service = build("people", "v1", credentials=creds)
 

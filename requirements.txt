@@ -1,7 +1,10 @@
-python-telegram-bot==21.6
-openai==1.63.0
+python-telegram-bot[job-queue]==21.6
+# httpx (LLM gateway + Serper calls) is installed by python-telegram-bot
 Pillow==10.4.0
 python-dotenv==1.0.1
+# zoneinfo has no timezone database of its own on Windows
+tzdata>=2024.1
+# Google Contacts (optional at runtime: only used once an account is linked)
 google-api-python-client==2.149.0
 google-auth==2.35.0
 google-auth-oauthlib==1.2.1
