@@ -18,10 +18,10 @@
   "workers_dev": true,
   "vars": {
     "BOT_NAME": "card-connect",
-    "BOT_USERNAME": ""
+    "BOT_USERNAME": "card_connect_bot"
   },
   "services": [{ "binding": "LLM", "service": "thebooleanjulian-llm" }],
-  // "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "<from provision.mjs card_connect>" }],
+  "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "11924746fda447d0b4d5fe6563076db3" }],
   "triggers": { "crons": ["0 1 * * *"] }, // 09:00 SGT: follow-up reminders
   "routes": [{ "pattern": "card-connect.thebooleanjulian.dev", "custom_domain": true }],
   "version_metadata": { "binding": "CF_VERSION_METADATA" },
